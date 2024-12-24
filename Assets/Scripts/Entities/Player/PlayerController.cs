@@ -30,7 +30,10 @@ namespace Entities.Player
         [SerializeField]
         private bool isRunning = false;
         private bool triggerEnter = false;
-        private IWeapon currentWeapon;
+        private GameObject currentWeapon;
+        // 左右手的位置 (Transform)
+        [SerializeField] private Transform rightHand;  // 右手
+        [SerializeField] private Transform leftHand;   // 左手
 
         private void Awake()
         {
@@ -226,16 +229,49 @@ namespace Entities.Player
             }
         }
 
-        public void Attack()
+        // EquipWeapon方法，將武器裝備到玩家的左右手
+        public void EquipWeapon(GameObject weaponGameObj)
         {
-            if (state == STATE.ATTACK || currentWeapon == null)
-                return;
-
-            if (currentWeapon.CanAttack())
+            currentWeapon = weaponGameObj;
+            IWeapon weapon = weaponGameObj.GetComponent<IWeapon>();
+            if (currentWeapon != null && weapon.WeaponType != WeaponType.Shield)
             {
-                GoToState(STATE.ATTACK);
-                anim.CrossFadeInFixedTime("attack", 0.1f);
-                currentWeapon.Attack();
+                currentWeapon.transform.SetParent(rightHand);
+                currentWeapon.transform.localPosition = Vector3.zero;
+                currentWeapon.transform.localPosition = new Vector3(0, 0.02f, 0);
+                currentWeapon.transform.localRotation = Quaternion.identity;
+            }
+            else
+            {
+                currentWeapon.transform.SetParent(leftHand);
+                currentWeapon.transform.localPosition = Vector3.zero;
+                currentWeapon.transform.localPosition = new Vector3(0, 0.02f, 0);
+                currentWeapon.transform.localRotation = Quaternion.Euler(new Vector3(-120, 0, -120));
+            }
+        }
+
+        public void DestroyCurrentWeapon()
+        {
+            if (currentWeapon != null)
+            {
+                Destroy(currentWeapon.gameObject);
+                currentWeapon = null;
+            }
+        }
+
+        public void Attack(bool _isAttack)
+        {
+            if(_isAttack && currentWeapon != null)
+            {
+                Debug.Log("PlayerController Attack");
+                IWeapon weapon = currentWeapon.GetComponent<IWeapon>();
+                if (state == STATE.ATTACK || currentWeapon == null)
+                    return;
+
+                if (weapon.CanAttack())
+                {
+                    weapon.Attack();
+                }
             }
         }
 
