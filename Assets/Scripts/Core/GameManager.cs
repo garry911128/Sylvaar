@@ -70,7 +70,8 @@ namespace Core
                     break;
 
                 case GameState.InGame:
-                    SceneManager.LoadScene("InGameScene");
+                    //SceneManager.LoadScene("InGameScene");
+                    SceneManager.LoadScene("Demo");
                     Debug.Log("InGameScene loaded");
                     break;
 
