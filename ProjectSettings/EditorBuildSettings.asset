@@ -5,15 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/SampleScene.unity
-    guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
     path: Assets/Scenes/Playable/GameStartScene.unity
     guid: 2bf949e97b736ca439bcd069d36f9bbf
   - enabled: 1
-    path: Assets/Scenes/Playable/InGameScene.unity
-    guid: 7e7334c81e6f566479e7ce216ad43d32
+    path: Assets/Scenes/TriForge Assets/Fantasy Worlds - DEMO Content/Scenes/Built-in
+      Renderer/fwOF_FreeDemo_OldForest.unity
+    guid: 598777387c5505646bbe75b3445e21dc
   - enabled: 1
     path: Assets/Scenes/Playable/GameEndScene.unity
     guid: d8eeb9bbd9402a84cb3ba7cc4957a99a

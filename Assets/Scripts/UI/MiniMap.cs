@@ -55,7 +55,7 @@ namespace UI
             float iconY = normalizedZ * mapHeight;
             Vector2 mapCenterOffset = new Vector2(mapRect.rect.width * mapRect.pivot.x, mapRect.rect.height * mapRect.pivot.y);
 
-            icon.anchoredPosition = new Vector2(iconX - mapCenterOffset.x, iconY - mapCenterOffset.y + 12f);
+            icon.anchoredPosition = new Vector2(iconX - mapCenterOffset.x, iconY - mapCenterOffset.y + 20f);
 
             float iconScale = Mathf.Min(mapWidth / terrainSize.x, mapHeight / terrainSize.z);
             icon.localScale = new Vector3(iconScale, iconScale, 1);

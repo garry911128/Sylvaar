@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using Core;
 using Interactable;
+using Player;
 using UnityEngine;
 
 namespace Entities.NPC
@@ -26,6 +28,8 @@ namespace Entities.NPC
                     DeleteItem();
                 }
                 triggerZoneWithInteract.TriggerAVG();
+                PlayerBag playerBag = GameObject.Find("PlayerBag").GetComponent<PlayerBag>();
+                playerBag.AddItem("YellowKey(R)", 1);
             }
             else
             {
@@ -35,14 +39,25 @@ namespace Entities.NPC
 
         private bool IsMissionDone()
         {
-            // Get Item And Check Count
-            return true;
+            Dictionary<string, int> playerBag = GameObject.Find("PlayerBag").GetComponent<PlayerBag>().GetItemCount();
+            if (playerBag["Stone"] >= missionStoneCount && playerBag["Wood"] >= missionWoodCount)
+            {
+                // Get Item And Check Count
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         private void DeleteItem()
         {
-            // Delete
+            PlayerBag playerBag = GameObject.Find("PlayerBag").GetComponent<PlayerBag>();
+            playerBag.RemoveItem("Stone", missionStoneCount);
+            playerBag.RemoveItem("Wood", missionWoodCount);
         }
+
     }
 }
 

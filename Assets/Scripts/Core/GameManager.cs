@@ -1,8 +1,6 @@
 ﻿using Entities.Player;
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Video;
 using Weapons;
 
 namespace Core
@@ -70,7 +68,8 @@ namespace Core
                     break;
 
                 case GameState.InGame:
-                    SceneManager.LoadScene("InGameScene");
+                    //SceneManager.LoadScene("InGameScene");
+                    SceneManager.LoadScene("fwOF_FreeDemo_OldForest");
                     //Debug.Log("InGameScene loaded");
                     break;
 

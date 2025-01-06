@@ -1,4 +1,5 @@
 using System.IO;
+using Player;
 using UnityEngine;
 
 namespace Interactable
@@ -13,21 +14,8 @@ namespace Interactable
         {
             try
             {
-                var path = Path.Combine(Application.streamingAssetsPath, "PlayerItems/items.csv");
-                var lines = File.ReadAllLines(path);
-                var headers = lines[0].Split(',');
-                var itemsQuantity = lines[1].Split(',');
-                for (int i = 0; i < headers.Length; i++)
-                {
-                    if (headers[i] == itemName)
-                    {
-                        itemsQuantity[i] = (int.Parse(itemsQuantity[i]) + itemQuantity).ToString();
-                        break;
-                    }
-                }
-
-                lines[1] = string.Join(",", itemsQuantity);
-                File.WriteAllLines(path, lines);
+                PlayerBag playerBag = GameObject.Find("PlayerBag").GetComponent<PlayerBag>();
+                playerBag.AddItem(itemName, itemQuantity);
             }
             catch (IOException e)
             {

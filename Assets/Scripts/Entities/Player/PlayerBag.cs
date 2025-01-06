@@ -23,38 +23,39 @@ namespace Player
         {
             // Initialize dictionaries
             stackLimit = new Dictionary<string, int>
-        {
-            //{ "Stick", 10 },
-            { "Wood", 10 },
-            { "Stone", 10 },
-            { "Shield", 1 },
-            { "Sword", 1 },
-            { "Bomb", 5 },
-            { "Yellow key(L)", 1 },
-            { "Yellow key(R)", 1 },
-            { "Purple key(L)", 1 },
-            { "Purple key(R)", 1 },
-        };
+            {
+                //{ "Stick", 10 },
+                { "Wood", 30 },
+                { "Stone", 30 },
+                { "Shield", 1 },
+                { "Sword", 1 },
+                { "Bomb", 10 },
+                { "YellowKey(L)", 1 },
+                { "YellowKey(R)", 1 },
+                { "PurpleKey(L)", 1 },
+                { "PurpleKey(R)", 1 },
+            };
 
             itemCount = new Dictionary<string, int>
-        {
-            //{ "Stick", 0 },
-            { "Wood", 0 },
-            { "Stone", 0 },
-            { "Shield", 0 },
-            { "Sword", 0 },
-            { "Bomb", 0 },
-            { "YellowKey(L)", 0 },
-            { "YellowKey(R)", 0 },
-            { "PurpleKey(L)", 0 },
-            { "PurpleKey(R)", 0 },
-        };
+            {
+                //{ "Stick", 0 },
+                { "Wood", 0 },
+                { "Stone", 0 },
+                { "Shield", 0 },
+                { "Sword", 0 },
+                { "Bomb", 0 },
+                { "YellowKey(L)", 0 },
+                { "YellowKey(R)", 0 },
+                { "PurpleKey(L)", 0 },
+                { "PurpleKey(R)", 0 },
+            };
 
             // Set file path
             filePath = Path.Combine(Application.streamingAssetsPath, "PlayerItems/items.csv");
 
             // Load item counts from CSV
-            LoadItemCounts();
+            //LoadItemCounts();
+            SaveItemCounts();
         }
 
         void Update()
