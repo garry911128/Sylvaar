@@ -80,6 +80,7 @@ namespace AVG
                 case STATE.RUNNING:
                     if (triggerEnter)
                     {
+                        Debug.Log("AVGUIManager.Instance.AVGUIShow()");
                         AVGUIManager.Instance.AVGUIShow();
                     }
 
@@ -87,6 +88,7 @@ namespace AVG
                 case STATE.FINISHED:
                     if (triggerEnter)
                     {
+                        Debug.Log("AVGUIManager.Instance.AVGUIHide()");
                         AVGUIManager.Instance.AVGUIHide();
                     }
                     break;
@@ -100,9 +102,10 @@ namespace AVG
             if (targetState == STATE.FINISHED)
             {
                 finalID = currentID;
-                Debug.Log(finalID);
+                Debug.Log("finalID" + finalID);
             }
             state = targetState;
+            Debug.Log("State: " + state);
             triggerEnter = true;
         }
 

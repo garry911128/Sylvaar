@@ -1,4 +1,5 @@
 id,character_name,character_image,character_position,event_image,sound_effect,dialog_text,choices,next_scene_id,animation,voice_clip,display_type
-1001,,,,,,"The little squirrel heard the legend of the Acorn Ruins from others, learning that two correct key fragments are needed to unlock it.",[],,,,narration
-1002,,,,,,"These fragments are held by various animals in the forest. To uncover the legendary Acorn Ruins, the squirrel embarks on a magical journey.",[],,,,narration
-1003,,,,,,"Players begin exploring the forest, searching for clues and the key fragments.",[],,,,narration
+1001,,,,,,The little squirrel heard about the legend of the Acorn Ruins from others.,[],,,,narration
+1002,,,,,,It is said that two correct key fragments are needed to unlock the ruins.,[],,,,narration
+1003,,,,,,These fragments are hidden in the hands of various animals in the forest.,[],,,,narration
+1004,,,,,,"To find the legendary Acorn Ruins, the squirrel sets out on a magical journey.",[],,,,narration

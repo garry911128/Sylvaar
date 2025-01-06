@@ -10,8 +10,8 @@ namespace Core
         public GameObject PlayerHandler;
         public enum GameState
         {
-            MainStroy,
             MainMenu,
+            MainStory,
             InGame,
             GoodEnd,
             BadEnd
@@ -66,6 +66,10 @@ namespace Core
             {
                 case GameState.MainMenu:
                     SceneManager.LoadScene("GameStartScene");
+                    break;
+
+                case GameState.MainStory:
+                    SceneManager.LoadScene("MainStoryScene");
                     break;
 
                 case GameState.InGame:

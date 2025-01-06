@@ -11,13 +11,21 @@ namespace Core
 
         private void Start()
         {
-            TriggerAVG();
         }
 
         private void Update()
         {
-
+            if (!hasTriggered)
+            {
+                TriggerAVG();
+            }
+            if(hasTriggered && AVGMachine.Instance.IsFinished())
+            {
+                AVGMachine.Instance.ResetFinal();
+                GameManager.Instance.GameStateChange(GameManager.GameState.InGame);
+            }
         }
+
         public void TriggerAVG()
         {
             if (AVGMachine.Instance.IsFinished()
