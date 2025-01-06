@@ -28,6 +28,7 @@ namespace Entities.Player
         public float velocity = 3.0f;
         public float jumpThrust = 3.0f;
         public GameObject model;
+        [SerializeField] private GameObject realModel;
 
         private Vector3 movingVec;
         private Animator anim;
@@ -45,6 +46,7 @@ namespace Entities.Player
         {
              GameManager.Instance.LoadPlayerHandler(gameObject);
             anim = model.GetComponentInChildren<Animator>();
+            realModel = model.transform.GetChild(0).gameObject;
             rigid = GetComponent<Rigidbody>();
             currentWeapon = new List<GameObject> { null, null };
             state = STATE.IDLE;
@@ -179,6 +181,7 @@ namespace Entities.Player
                     //}
                     if (checkAttack && stateInfo.normalizedTime >= 1f)
                     {
+                        realModel.transform.localPosition = new Vector3(0, 1.7f, 0);
                         GoToState(STATE.IDLE);
                     }
                     break;
@@ -357,6 +360,7 @@ namespace Entities.Player
                     currentWeapon[(int)Hands.Right].transform.localPosition = new Vector3(0, 0, 0);
                     currentWeapon[(int)Hands.Right].transform.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
                     anim.CrossFadeInFixedTime("idle", 0.1f);
+                    realModel.transform.localPosition = new Vector3(0, 1.7f, 0);
                     weapon?.StopBlock();
                 }
             }

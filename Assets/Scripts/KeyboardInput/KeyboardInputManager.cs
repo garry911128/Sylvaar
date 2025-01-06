@@ -119,7 +119,7 @@ namespace KeyboardInput
 
         protected override void CalculateAttack()
         {
-            if (Input.GetKeyDown("mouse 0") && !isMute)
+            if (Input.GetKeyDown("mouse 0") && !isMute && !isBackpackActive)
             {
                 attack = true;
                 evtAttack?.Invoke(attack);

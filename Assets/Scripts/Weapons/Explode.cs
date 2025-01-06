@@ -1,3 +1,4 @@
+using Audio;
 using Core;
 using UnityEngine;
 
@@ -38,8 +39,9 @@ namespace Weapons
 
         explosionEffect.transform.position = transform.position - new Vector3 (0,1,0);
         explosionEffect.Play();
+        AudioManager.Instance.PlayOther("Bomb");
 
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, range);
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, range);
         foreach (var hit in hitColliders)
         {
             if (hit.CompareTag("Enemy") && hit.TryGetComponent<IDamageable>(out var damageable))

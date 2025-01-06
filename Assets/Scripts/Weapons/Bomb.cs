@@ -1,3 +1,4 @@
+using Audio;
 using Core;
 using Player;
 using UnityEngine;
@@ -39,7 +40,6 @@ namespace Weapons
 
             Explode bombScript = bombInstance.AddComponent<Explode>();
             bombScript.Initialize(WeaponName, Damage, Range);
-
             // bomo explode after 5s
             Destroy(bombInstance, 5.1f);
             PlayerBag playerBag = GameObject.Find("PlayerBag").GetComponent<PlayerBag>();

@@ -10,6 +10,7 @@ namespace Core
         public GameObject PlayerHandler;
         public enum GameState
         {
+            MainStroy,
             MainMenu,
             InGame,
             GoodEnd,

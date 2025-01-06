@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using KeyboardInput;
 using Player;
+using Audio;
 
 namespace UI
 {
@@ -236,6 +237,7 @@ namespace UI
                 {
                     resultName = GetSynthesizedItem(craftingItems[1], craftingItems[0]);
                 }
+                AudioManager.Instance.PlayOther("Synthesis");
                 playerBag.GetComponent<PlayerBag>().AddItem(resultName);
 
                 // Clear crafting slots
