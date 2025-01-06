@@ -26,15 +26,16 @@ namespace Entities.Item
 
         public void SpawnItems()
         {
+            Vector3 generatorPosition = transform.position;
             for (float x = negativePosition.x; x < positivePosition.x; x += distanceBetweenObjects)
             {
                 for (float z = negativePosition.y; z < positivePosition.y; z += distanceBetweenObjects)
                 {
                     RaycastHit hit;
-                    
+                    Vector3 spawnPosition = new Vector3(generatorPosition.x + x, generatorPosition.y + heightCheck, generatorPosition.z + z);
                     GameObject itemPrefab = itemPrefabList[Random.Range(0, itemPrefabList.Count)];
-                    
-                    if (Physics.Raycast(new Vector3(x, heightCheck, z), Vector3.down, out hit, rangeCheck, layerMask))
+
+                    if (Physics.Raycast(spawnPosition, Vector3.down, out hit, rangeCheck, layerMask))
                     {
                         if (spawnChance > Random.Range(0f, 101f))
                         {

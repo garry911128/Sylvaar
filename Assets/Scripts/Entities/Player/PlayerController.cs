@@ -28,6 +28,7 @@ namespace Entities.Player
         public float velocity = 3.0f;
         public float jumpThrust = 3.0f;
         public GameObject model;
+        [SerializeField] private GameObject realModel;
 
         private Vector3 movingVec;
         private Animator anim;
@@ -38,13 +39,14 @@ namespace Entities.Player
         private bool isRunning = false;
         private bool triggerEnter = false;
         private List<GameObject> currentWeapon;
-        [SerializeField] private Transform rightHand;  
+        [SerializeField] private Transform rightHand;
         [SerializeField] private Transform leftHand;
 
         private void Awake()
         {
-            GameManager.Instance.LoadPlayerHandler(gameObject);
+             GameManager.Instance.LoadPlayerHandler(gameObject);
             anim = model.GetComponentInChildren<Animator>();
+            realModel = model.transform.GetChild(0).gameObject;
             rigid = GetComponent<Rigidbody>();
             currentWeapon = new List<GameObject> { null, null };
             state = STATE.IDLE;
@@ -53,17 +55,32 @@ namespace Entities.Player
         private void Update()
         {
             Vector3 newVelocity = Vector3.zero;
-            float movingVecH = Vector3.Dot(movingVec, transform.right);
-            float movingVecV = Vector3.Dot(movingVec, transform.forward);
+            // float movingVecH = Vector3.Dot(movingVec, transform.right);
+            // float movingVecV = Vector3.Dot(movingVec, transform.forward);
+            Transform cameraTransform = Camera.main.transform;
+            Vector3 cameraForward = Vector3.ProjectOnPlane(cameraTransform.forward, Vector3.up).normalized;
+            Vector3 cameraRight = Vector3.ProjectOnPlane(cameraTransform.right, Vector3.up).normalized;
             AnimatorStateInfo stateInfo;
 
-            if (Mathf.Abs(movingVecH) >= Mathf.Abs(movingVecV))
+            // if (Mathf.Abs(movingVecH) >= Mathf.Abs(movingVecV))
+            // {
+            //     movingVec = movingVecH * transform.right;
+            // }
+            // else
+            // {
+            //     movingVec = movingVecV * transform.forward;
+            // }
+            float horizontal = Input.GetAxis("Horizontal");
+            float vertical = Input.GetAxis("Vertical");
+            Vector3 inputDirection = cameraForward * vertical + cameraRight * horizontal;
+            // Vector3 inputDirection = new Vector3(horizontal, 0, vertical);
+            if (inputDirection.magnitude > 0.1f)
             {
-                movingVec = movingVecH * transform.right;
+                movingVec = inputDirection.normalized;
             }
             else
             {
-                movingVec = movingVecV * transform.forward;
+                movingVec = Vector3.zero;
             }
 
             switch (state)
@@ -97,7 +114,7 @@ namespace Entities.Player
                         break;
                     }
                     // wait animation
-                     anim.SetFloat("speed", isRunning ? 3.0f : 1.0f);
+                    anim.SetFloat("speed", isRunning ? 3.0f : 1.0f);
                     newVelocity = movingVec * (velocity * (isRunning ? 3.0f : 1.0f));
                     model.transform.forward = Vector3.Slerp(
                         model.transform.forward, movingVec, 0.1f);
@@ -164,6 +181,7 @@ namespace Entities.Player
                     //}
                     if (checkAttack && stateInfo.normalizedTime >= 1f)
                     {
+                        realModel.transform.localPosition = new Vector3(0, 1.7f, 0);
                         GoToState(STATE.IDLE);
                     }
                     break;
@@ -267,8 +285,8 @@ namespace Entities.Player
                 currentWeapon[(int)Hands.Left].transform.localPosition = Vector3.zero;
                 currentWeapon[(int)Hands.Left].transform.localRotation = Quaternion.identity;
             }
-            
-            if(weapon.WeaponType == WeaponType.Shield) //right
+
+            if (weapon.WeaponType == WeaponType.Shield) //right
             {
                 DestroyRightHandWeapon();
                 currentWeapon[(int)Hands.Right] = weaponGameObj;
@@ -280,7 +298,7 @@ namespace Entities.Player
 
         public void DestroyLeftHandWeapon()
         {
-            if(currentWeapon[(int)Hands.Left] != null)
+            if (currentWeapon[(int)Hands.Left] != null)
                 Destroy(currentWeapon[(int)Hands.Left]);
         }
 
@@ -333,7 +351,7 @@ namespace Entities.Player
                     weapon.Block();
                 }
             }
-            else if(!_isBlock && currentWeapon[(int)Hands.Right] != null)
+            else if (!_isBlock && currentWeapon[(int)Hands.Right] != null)
             {
                 if (state == STATE.ATTACK)
                 {
@@ -342,10 +360,12 @@ namespace Entities.Player
                     currentWeapon[(int)Hands.Right].transform.localPosition = new Vector3(0, 0, 0);
                     currentWeapon[(int)Hands.Right].transform.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
                     anim.CrossFadeInFixedTime("idle", 0.1f);
+                    realModel.transform.localPosition = new Vector3(0, 1.7f, 0);
                     weapon?.StopBlock();
                 }
             }
         }
+
 
     }
 }

@@ -27,7 +27,7 @@ namespace KeyboardInput
         private void OnStartButtonClicked()
         {
             //Debug.Log("Start button clicked. Changing game state to InGame.");
-            GameManager.Instance.GameStateChange(GameManager.GameState.InGame);
+            GameManager.Instance.GameStateChange(GameManager.GameState.MainStory);
         }
     }
 }

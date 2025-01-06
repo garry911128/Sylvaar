@@ -1,6 +1,7 @@
 using UnityEngine;
 using Core;
 using Player;
+using Audio;
 
 namespace Weapons
 {
@@ -67,7 +68,7 @@ namespace Weapons
         {
             durability -= Mathf.RoundToInt(damage);
             //Debug.Log($"{WeaponName} durability reduced by {damage}. Remaining durability: {durability}");
-
+            AudioManager.Instance.PlayOther("Shield");
             if (durability <= 0)
             {
                 PlayerBag playerBag = GameObject.Find("PlayerBag").GetComponent<PlayerBag>();

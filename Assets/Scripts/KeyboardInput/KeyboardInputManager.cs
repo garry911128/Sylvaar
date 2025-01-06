@@ -8,7 +8,8 @@ namespace KeyboardInput
         [SerializeField] private PlayerInteract playerInteract;
         [SerializeField] private Transform cameraTransform;
 
-        private Vector3 axis;
+        private Vector3 moveDirection;
+        // private Vector3 axis;
         private bool jump;
         private bool run;
         private bool dialogClick;
@@ -18,26 +19,49 @@ namespace KeyboardInput
         // wait AVG
         private bool isMute;
 
+        // protected override void CalculateDpadAxis()
+        // {
+        //     axis = Vector3.zero;
+        //     if (Input.GetKey("w"))
+        //     {
+        //         axis.z = 1.0f;
+        //     }
+        //     if (Input.GetKey("s"))
+        //     {
+        //         axis.z = -1.0f;
+        //     }
+        //     if (Input.GetKey("d"))
+        //     {
+        //         axis.x = 1.0f;
+        //     }
+        //     if (Input.GetKey("a"))
+        //     {
+        //         axis.x = -1.0f;
+        //     }
+        //     // need to move to other position
+        //     if (cameraTransform != null)
+        //     {
+        //         Vector3 forward = cameraTransform.forward;
+        //         Vector3 right = cameraTransform.right;
+        //     
+        //         forward.y = 0;
+        //         right.y = 0;
+        //         forward.Normalize();
+        //         right.Normalize();
+        //     
+        //         axis = (forward * axis.z + right * axis.x).normalized;
+        //     }
+        //     // evtDpadAxis?.Invoke(axis);
+        //     // wait AVG
+        //     evtDpadAxis?.Invoke(isMute ? Vector2.zero : axis);
+        // }
         protected override void CalculateDpadAxis()
         {
-            axis = Vector3.zero;
-            if (Input.GetKey("w"))
-            {
-                axis.z = 1.0f;
-            }
-            if (Input.GetKey("s"))
-            {
-                axis.z = -1.0f;
-            }
-            if (Input.GetKey("d"))
-            {
-                axis.x = 1.0f;
-            }
-            if (Input.GetKey("a"))
-            {
-                axis.x = -1.0f;
-            }
-            // need to move to other position
+            float horizontal = Input.GetAxis("Horizontal"); // A(-1) -> D(1)
+            float vertical = Input.GetAxis("Vertical");     // S(-1) -> W(1)
+
+            Vector3 inputDirection = new Vector3(horizontal, 0, vertical);
+
             if (cameraTransform != null)
             {
                 Vector3 forward = cameraTransform.forward;
@@ -45,14 +69,19 @@ namespace KeyboardInput
 
                 forward.y = 0;
                 right.y = 0;
+
                 forward.Normalize();
                 right.Normalize();
 
-                axis = (forward * axis.z + right * axis.x).normalized;
+                moveDirection = forward * inputDirection.z + right * inputDirection.x;
             }
-            // evtDpadAxis?.Invoke(axis);
-            // wait AVG
-            evtDpadAxis?.Invoke(isMute ? Vector2.zero : axis);
+            else
+            {
+                moveDirection = inputDirection;
+            }
+
+            moveDirection = moveDirection.normalized;
+            evtDpadAxis?.Invoke(isMute ? Vector2.zero : moveDirection);
         }
 
         protected override void CalculateJump()
@@ -60,15 +89,15 @@ namespace KeyboardInput
             jump = Input.GetKeyDown("space");
             // evtJump?.Invoke(jump);
             // wait AVG
-            evtJump?.Invoke(isMute ? false: jump);
+            evtJump?.Invoke(isMute ? false : jump);
         }
 
         protected override void CalculateRun()
         {
-            run = Input.GetKey("right shift");
+            run = Input.GetKey("left shift");
             // evtRun?.Invoke(run);
             // wait AVG
-            evtRun?.Invoke(isMute ? false: run);
+            evtRun?.Invoke(isMute ? false : run);
         }
 
         protected override void CalculateInteract()
@@ -86,25 +115,24 @@ namespace KeyboardInput
         {
             dialogClick = Input.GetKeyDown("mouse 0");
             evtDialogClick?.Invoke(dialogClick);
-         }
+        }
 
         protected override void CalculateAttack()
         {
             if (Input.GetKeyDown("mouse 0") && !isMute && !isBackpackActive)
             {
                 attack = true;
-                evtAttack?.Invoke(attack); 
+                evtAttack?.Invoke(attack);
             }
-            else if (Input.GetKeyUp("mouse 0")) 
+            else if (Input.GetKeyUp("mouse 0"))
             {
                 attack = false;
             }
         }
 
-
         protected override void CalculateBlock()
         {
-            if (Input.GetKey("mouse 1") && !isMute) 
+            if (Input.GetKey("mouse 1") && !isMute)
             {
                 block = true;
                 evtBlock?.Invoke(block);
@@ -121,18 +149,16 @@ namespace KeyboardInput
 
         }
 
+        public void SetBackpackActive(bool active)
+        {
+            isBackpackActive = active;
+            Debug.Log("SetBackpackActive: " + active);
+        }
+
         // wait AVG
         protected override void MuteCharacterMove(bool _isMute)
         {
             isMute = _isMute;
         }
-
-        public void SetBackpackActive(bool active)
-        {
-            isBackpackActive = active;
-            Debug.Log("SetBackpackActive: " + active); 
-        }
-
-
     }
 }

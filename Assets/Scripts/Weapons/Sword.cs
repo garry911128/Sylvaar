@@ -1,4 +1,5 @@
-﻿using Core;
+﻿using Audio;
+using Core;
 using Player;
 using UnityEngine;
 
@@ -38,7 +39,7 @@ namespace Weapons
                     // Force update of physics collision
                     Physics.SyncTransforms();
                 }
-                
+                AudioManager.Instance.PlayOther("Sword");
                 Invoke(nameof(StopAttack), 0.2f);
             }
             else
